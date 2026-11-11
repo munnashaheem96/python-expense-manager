@@ -1,4 +1,6 @@
 
+from datetime import datetime
+
 expense = []
 
 
@@ -16,6 +18,17 @@ def menu():
         return int(input("Option Value: "))
     except ValueError:
         return 0
+
+
+def get_date():
+    while True:
+        date = input("Enter Date (DD-MM-YYYY): ")
+
+        try:
+            valid_date = datetime.strptime(date, "%d-%m-%Y")
+            return valid_date.strftime("%d-%m-%Y")
+        except ValueError:
+            print("Invalid Date! Please try again.")
 
 
 def add_expense():
@@ -40,7 +53,9 @@ def add_expense():
             print("Amount must be greater than zero")
             return
 
-        expense.append((typeofExpense, paymentMode, amount))
+        date = get_date()
+
+        expense.append((typeofExpense, paymentMode, amount, date))
         print("Expense Added Successfully!")
 
     except ValueError:
@@ -57,7 +72,9 @@ def add_income():
             print("Amount must be greater than zero")
             return
 
-        expense.append((incomeType, "INCOME", amount))
+        date = get_date()
+
+        expense.append((incomeType, "INCOME", amount, date))
         print("Income Added Successfully!")
 
     except ValueError:
@@ -72,7 +89,7 @@ def display_expense():
     print("\n========== TRANSACTIONS ==========")
 
     for i, item in enumerate(expense):
-        print(f"{i}. {item[0]} | {item[1]} | Rs.{item[2]}")
+        print(f"{i}. {item[0]} | {item[1]} | Rs.{item[2]} | {item[3]}")
 
     print("=================================")
 
@@ -133,7 +150,9 @@ def update_expense():
             print("Amount must be greater than zero")
             return
 
-        expense[i] = (typeofExpense, paymentMode, amount)
+        date = get_date()
+
+        expense[i] = (typeofExpense, paymentMode, amount, date)
 
         print("Updated Successfully!")
 
@@ -154,8 +173,8 @@ def view_balance():
     balance = total_income - total_expense
 
     print("\n========== ACCOUNT SUMMARY ==========")
-    print(f"Total Income  : Rs.{total_income}")
-    print(f"Total Expense : Rs.{total_expense}")
+    print(f"Total Income   : Rs.{total_income}")
+    print(f"Total Expense  : Rs.{total_expense}")
     print("-------------------------------------")
     print(f"Current Balance: Rs.{balance}")
     print("=====================================")

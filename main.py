@@ -27,6 +27,7 @@ while y == 0:
 
     elif opt == 6:
         view_balance()
+
     else:
         print("Invalid Option")
 
